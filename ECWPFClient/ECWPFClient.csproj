@@ -58,6 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\TEventAutoGenerator.cs" />
+    <Compile Include="Models\Orion SOAP\TEvent.cs" />
+    <Compile Include="Models\Orion SOAP\TEventType.cs" />
+    <Compile Include="Models\Orion SOAP\TOperationResult.cs" />
+    <Compile Include="Models\Orion SOAP\TServiceError.cs" />
+    <Compile Include="Services\TEventService.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Page Include="View\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -101,8 +107,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
