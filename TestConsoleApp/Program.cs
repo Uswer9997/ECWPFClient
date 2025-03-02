@@ -26,9 +26,11 @@ namespace TestConsoleApp
           TestTEventService();
           break;
       }
-      Console.Write("For exit press any key");
+      Console.Write("For exit press Enter");
       Console.ReadLine();
     }
+
+    #region TEventAutoGenerator
 
     private static void TestTEventAutoGenerator()
     {
@@ -49,12 +51,13 @@ namespace TestConsoleApp
         }
       }
     }
+    #endregion
 
     private static void PrintEvents(TEvent[] events)
     {
       foreach (TEvent ev in events)
       {
-        Console.WriteLine($"date:{ev.EventDate}, id:{ev.EventId}, desc:{ev.Description}");
+        Console.WriteLine($"desc:{ev.Description}, date:{ev.EventDate}, id:{ev.EventId}");
       }
     }
 
@@ -67,6 +70,7 @@ namespace TestConsoleApp
       {
         EvService.ProcessedEventTypes = new TEventType[] { TEventAutoGenerator.DefaultEventType };
         EvService.Events.CollectionChanged += EventsChanged;
+        Console.ReadKey();
       }
     }
 

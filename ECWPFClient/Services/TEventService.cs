@@ -61,8 +61,11 @@ namespace ECWPFClient.Services
 
     public TEventService()
     {
-      // временное решение
+      #region временное решение
       eventGenerator = new Infrastructure.TEventAutoGenerator();
+      eventGenerator.MaxEventCount = 20;
+      eventGenerator.StartGeneration();
+      #endregion
 
       Events = new ObservableCollection<TEvent>();
       previousTime = DateTime.Now;

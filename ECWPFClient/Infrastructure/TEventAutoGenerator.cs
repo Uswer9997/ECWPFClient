@@ -53,7 +53,7 @@ namespace ECWPFClient.Infrastructure
     public TEventAutoGenerator()
     {
       GenerateInterval = 1000;
-      MaxEventCount = 100;
+      MaxEventCount = 10;
       events = new List<TEvent>();
       GenerateEventType = TEventAutoGenerator.DefaultEventType;
       generateTimer = new System.Timers.Timer();
