@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECWPFClient.Services
+namespace ECWPFClient.Services 
 {
   /// <summary>
   /// Сервис генерирующий с определённой периодичностью события TEvent.
   /// Также сервис предоставляет события TEvent по запросу.
   /// </summary>
-  internal class TEventService
+  internal class TEventService: IDisposable
   {
     /// <summary>
     /// Имитатор работы SOAP-сервиса
@@ -39,5 +39,30 @@ namespace ECWPFClient.Services
       return eventGenerator.GetEvents(beginTime, endTime, eventTypes, offset, count);
     }
 
+
+    #region Disposing
+    // Flag: Has Dispose already been called?
+    bool disposed = false;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+      Dispose(disposing: true);
+    }
+
+    // Protected implementation of Dispose pattern.
+    protected virtual void Dispose(bool disposing)
+    {
+      if (disposed)
+        return;
+
+      if (disposing)
+      {
+        eventGenerator?.Dispose();
+      }
+
+      disposed = true;
+    }
+    #endregion
   }
 }

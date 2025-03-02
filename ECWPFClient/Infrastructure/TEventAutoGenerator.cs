@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECWPFClient.Infrastructure
 {
-  public class TEventAutoGenerator
+  public class TEventAutoGenerator : IDisposable
   {
     /// <summary>
     /// Список событий
@@ -64,7 +64,8 @@ namespace ECWPFClient.Infrastructure
         events.RemoveAt(0);
       }
 
-      TEvent newTEvent = new TEvent() {
+      TEvent newTEvent = new TEvent()
+      {
         EventId = "eee",
         Description = "TestEvent",
         EventDate = DateTime.Now,
@@ -115,5 +116,34 @@ namespace ECWPFClient.Infrastructure
 
       return tOResult;
     }
+
+    #region Disposing
+    // Flag: Has Dispose already been called?
+    bool disposed = false;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+      Dispose(disposing: true);
+    }
+
+    // Protected implementation of Dispose pattern.
+    protected virtual void Dispose(bool disposing)
+    {
+      if (disposed)
+        return;
+
+      if (disposing)
+      {
+        if (generateTimer.Enabled)
+        {
+          generateTimer.Stop();
+          generateTimer.Elapsed -= OnTimedEvent;
+        }
+      }
+
+      disposed = true;
+    }
+    #endregion
   }
 }
