@@ -62,6 +62,7 @@
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Commands\Base\BaseCommand.cs" />
     <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
+    <Compile Include="Infrastructure\ObservableCollectionExtensions.cs" />
     <Compile Include="Infrastructure\TEventAutoGenerator.cs" />
     <Compile Include="Data\Orion SOAP\TEvent.cs" />
     <Compile Include="Data\Orion SOAP\TEventType.cs" />

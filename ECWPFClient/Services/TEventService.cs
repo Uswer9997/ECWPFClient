@@ -1,6 +1,7 @@
 ﻿using ECWPFClient.Data.Orion_SOAP;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,15 @@ namespace ECWPFClient.Services
       }
     }
 
+    /// <summary>
+    /// Типы события Орион, которые необходимо отслеживать
+    /// </summary>
     public TEventType[] ProcessedEventTypes { get; set; }
+
+    /// <summary>
+    /// События Орион отслеживаемые сервисом
+    /// </summary>
+    public ObservableCollection<TEvent> Events { get; }
 
     /// <summary>
     /// Таймер проверки новых событий
@@ -78,8 +87,10 @@ namespace ECWPFClient.Services
                                                        eventTypes: ProcessedEventTypes,
                                                        offset: 0,
                                                        count: int.MaxValue);
+      Events.Add()
       // здесь обработка полученного результата и выброс события о поступлении новых данных
 
+      previousTime = currectTime;
       // Вновь запускаем таймер
       checkTimer.Start();
     }
