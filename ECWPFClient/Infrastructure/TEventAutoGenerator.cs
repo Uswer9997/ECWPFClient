@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace ECWPFClient.Infrastructure
 {
+  /// <summary>
+  /// Класс заглушка вместо реального SOAP-сервиса.
+  /// Позволяет имитировать возникновение событий Ориона,
+  /// то есть генерирует с определённой периодичностью события TEvent.
+  /// </summary>
   public class TEventAutoGenerator : IDisposable
   {
     /// <summary>
@@ -64,9 +69,11 @@ namespace ECWPFClient.Infrastructure
         events.RemoveAt(0);
       }
 
+      Guid guid = Guid.NewGuid();
+
       TEvent newTEvent = new TEvent()
       {
-        EventId = "eee",
+        EventId = guid.ToString(),
         Description = "TestEvent",
         EventDate = DateTime.Now,
         EventTypeId = GenerateEventType.Id,
@@ -80,7 +87,12 @@ namespace ECWPFClient.Infrastructure
 
     public void StartGeneration()
     {
+      generateTimer.Start();
+    }
 
+    public void StopGeneration()
+    {
+      generateTimer.Stop();
     }
 
     /// <summary>

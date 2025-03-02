@@ -8,30 +8,73 @@ using System.Threading.Tasks;
 namespace ECWPFClient.Services 
 {
   /// <summary>
-  /// Сервис генерирующий с определённой периодичностью события TEvent.
+  /// Сервис проверяющий с определённой периодичностью появление событий Ориона (TEvent).
   /// Также сервис предоставляет события TEvent по запросу.
   /// </summary>
-  internal class TEventService: IDisposable
+  internal class TEventService : IDisposable
   {
     /// <summary>
     /// Имитатор работы SOAP-сервиса
     /// </summary>
     private Infrastructure.TEventAutoGenerator eventGenerator;
 
+    /// <summary>
+    /// Интервал проверки новых событий Ориона
+    /// </summary>
+    public int CheckInterval
+    {
+      get => _checkInterval;
+      set
+      {
+        _checkInterval = value;
+        checkTimer.Interval = _checkInterval;
+      }
+    }
+
+    public ProcessedEventTypes {get;set;}
+    /// <summary>
+    /// Таймер проверки новых событий
+    /// </summary>
+    private System.Timers.Timer checkTimer;
+
+    /// <summary>
+    /// Время предыдущего запроса событий
+    /// </summary>
+    private DateTime previousTime;
+
+
     #region Constructor
 
     public TEventService()
     {
+      // временное решение
       eventGenerator = new Infrastructure.TEventAutoGenerator();
+
+      previousTime = DateTime.Now;
+      checkTimer = new System.Timers.Timer();
+      CheckInterval = 10000; // default value
+      checkTimer.Elapsed += OnCheckEvetns;
+      checkTimer.Start();
     }
     #endregion
+
+    /// <summary>
+    /// Проверяет наличие новых событий в Орионе
+    /// </summary>
+    protected void OnCheckEvetns(Object source, System.Timers.ElapsedEventArgs e)
+    {
+      // текущее время для запроса событий
+      DateTime currectTime = DateTime.Now;
+
+      GetEvents(beginTime:previousTime, endTime:currectTime,)
+    }
 
     /// <summary>
     /// Возвращает события согласно переданному фильтру
     /// </summary>
     /// <returns></returns>
-    public TOperationResult<TEvent[]> GetEvents(DateTime beginTime, 
-                                                DateTime endTime, 
+    public TOperationResult<TEvent[]> GetEvents(DateTime beginTime,
+                                                DateTime endTime,
                                                 TEventType[] eventTypes,
                                                 int offset,
                                                 int count)
@@ -43,6 +86,7 @@ namespace ECWPFClient.Services
     #region Disposing
     // Flag: Has Dispose already been called?
     bool disposed = false;
+    private int _checkInterval;
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()
@@ -58,6 +102,12 @@ namespace ECWPFClient.Services
 
       if (disposing)
       {
+        if (checkTimer.Enabled)
+        {
+          checkTimer.Stop();
+          checkTimer.Elapsed -= OnCheckEvetns;
+          checkTimer.Dispose();
+        }
         eventGenerator?.Dispose();
       }
 
