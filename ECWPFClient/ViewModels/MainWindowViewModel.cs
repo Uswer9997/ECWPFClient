@@ -1,7 +1,9 @@
-﻿using ECWPFClient.Infrastructure.Commands;
+﻿using ECWPFClient.Data.Orion_SOAP;
+using ECWPFClient.Infrastructure.Commands;
 using ECWPFClient.ViewModels.Base;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +21,11 @@ namespace ECWPFClient.ViewModels
       get => _Title;
       set => Set(ref _Title, value);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public ObservableCollection<TEvent> Events { get; }
 
     #region Commands
 

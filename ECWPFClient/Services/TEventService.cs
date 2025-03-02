@@ -1,4 +1,5 @@
 ﻿using ECWPFClient.Data.Orion_SOAP;
+using ECWPFClient.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ namespace ECWPFClient.Services
   /// Сервис проверяющий с определённой периодичностью появление событий Ориона (TEvent).
   /// Также сервис предоставляет события TEvent по запросу.
   /// </summary>
-  internal class TEventService : IDisposable
+  public class TEventService : IDisposable
   {
     /// <summary>
     /// Имитатор работы SOAP-сервиса
@@ -63,6 +64,7 @@ namespace ECWPFClient.Services
       // временное решение
       eventGenerator = new Infrastructure.TEventAutoGenerator();
 
+      Events = new ObservableCollection<TEvent>();
       previousTime = DateTime.Now;
       checkTimer = new System.Timers.Timer();
       CheckInterval = 10000; // default value
@@ -82,13 +84,16 @@ namespace ECWPFClient.Services
       // текущее время для запроса событий
       DateTime currectTime = DateTime.Now;
 
-      TOperationResult<TEvent[]> newEvents = GetEvents(beginTime: previousTime,
+      TOperationResult<TEvent[]> requestEvents = GetEvents(beginTime: previousTime,
                                                        endTime: currectTime,
                                                        eventTypes: ProcessedEventTypes,
                                                        offset: 0,
                                                        count: int.MaxValue);
-      Events.Add()
-      // здесь обработка полученного результата и выброс события о поступлении новых данных
+
+      if (requestEvents.Success)
+      {
+        Events.AddRange(requestEvents.Result);
+      }
 
       previousTime = currectTime;
       // Вновь запускаем таймер

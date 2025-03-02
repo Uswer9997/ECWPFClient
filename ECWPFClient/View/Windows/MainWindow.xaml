@@ -7,15 +7,21 @@
         xmlns:vm="clr-namespace:ECWPFClient.ViewModels"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
-        Height="450" Width="800">
+        Height="427" Width="800">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top" >
             <MenuItem Header="События"/>
             <MenuItem Header="Данные"/>
         </Menu>
+        <StatusBar DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Bottom"/>
+        <Grid>
+            <DataGrid>
+                
+            </DataGrid>
+        </Grid>
     </DockPanel>
     <!--<Grid>
         <TextBox HorizontalAlignment="Left"

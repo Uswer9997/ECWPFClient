@@ -31,6 +31,17 @@ namespace ECWPFClient.Infrastructure
 
     public TEventType GenerateEventType { get; set; }
 
+    public static TEventType DefaultEventType = new TEventType()
+    {
+      Id = 1,
+      Category = "TestCategory",
+      CharId = "",
+      Comments = "TestComments",
+      Description = "TestDescription",
+      HexCode = "",
+      IsAlarm = true
+    };
+
     /// <summary>
     /// Таймер автогенерации событий
     /// </summary>
@@ -44,24 +55,14 @@ namespace ECWPFClient.Infrastructure
       GenerateInterval = 1000;
       MaxEventCount = 100;
       events = new List<TEvent>();
-      GenerateEventType = new TEventType()
-      {
-        Id = 1,
-        Category = "TestCategory",
-        CharId = "",
-        Comments = "TestComments",
-        Description = "TestDescription",
-        HexCode = "",
-        IsAlarm = true
-      };
+      GenerateEventType = TEventAutoGenerator.DefaultEventType;
       generateTimer = new System.Timers.Timer();
       generateTimer.Interval = GenerateInterval;
       generateTimer.Elapsed += OnTimedEvent;
     }
     #endregion
 
-
-
+    
     private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
     {
       if (events.Count >= MaxEventCount)
