@@ -1,4 +1,4 @@
-﻿using ECWPFClient.Models.Orion_SOAP;
+﻿using ECWPFClient.Data.Orion_SOAP;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,11 +1,11 @@
-﻿using ECWPFClient.Models.Orion_SOAP;
+﻿using ECWPFClient.Data.Orion_SOAP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECWPFClient.Services 
+namespace ECWPFClient.Services
 {
   /// <summary>
   /// Сервис проверяющий с определённой периодичностью появление событий Ориона (TEvent).
@@ -18,12 +18,15 @@ namespace ECWPFClient.Services
     /// </summary>
     private Infrastructure.TEventAutoGenerator eventGenerator;
 
+
+    private int _checkInterval;
+
     /// <summary>
     /// Интервал проверки новых событий Ориона
     /// </summary>
     public int CheckInterval
     {
-      get => _checkInterval;
+      get => this._checkInterval;
       set
       {
         _checkInterval = value;
@@ -31,7 +34,8 @@ namespace ECWPFClient.Services
       }
     }
 
-    public ProcessedEventTypes {get;set;}
+    public TEventType[] ProcessedEventTypes { get; set; }
+
     /// <summary>
     /// Таймер проверки новых событий
     /// </summary>
@@ -53,7 +57,7 @@ namespace ECWPFClient.Services
       previousTime = DateTime.Now;
       checkTimer = new System.Timers.Timer();
       CheckInterval = 10000; // default value
-      checkTimer.Elapsed += OnCheckEvetns;
+      checkTimer.Elapsed += OnCheckEvents;
       checkTimer.Start();
     }
     #endregion
@@ -61,12 +65,23 @@ namespace ECWPFClient.Services
     /// <summary>
     /// Проверяет наличие новых событий в Орионе
     /// </summary>
-    protected void OnCheckEvetns(Object source, System.Timers.ElapsedEventArgs e)
+    protected void OnCheckEvents(object source, System.Timers.ElapsedEventArgs e)
     {
+      // Останавливаем таймер на время выполнения запроса
+      checkTimer.Stop();
+
       // текущее время для запроса событий
       DateTime currectTime = DateTime.Now;
 
-      GetEvents(beginTime:previousTime, endTime:currectTime,)
+      TOperationResult<TEvent[]> newEvents = GetEvents(beginTime: previousTime,
+                                                       endTime: currectTime,
+                                                       eventTypes: ProcessedEventTypes,
+                                                       offset: 0,
+                                                       count: int.MaxValue);
+      // здесь обработка полученного результата и выброс события о поступлении новых данных
+
+      // Вновь запускаем таймер
+      checkTimer.Start();
     }
 
     /// <summary>
@@ -86,7 +101,6 @@ namespace ECWPFClient.Services
     #region Disposing
     // Flag: Has Dispose already been called?
     bool disposed = false;
-    private int _checkInterval;
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()
@@ -105,7 +119,7 @@ namespace ECWPFClient.Services
         if (checkTimer.Enabled)
         {
           checkTimer.Stop();
-          checkTimer.Elapsed -= OnCheckEvetns;
+          checkTimer.Elapsed -= OnCheckEvents;
           checkTimer.Dispose();
         }
         eventGenerator?.Dispose();
