@@ -39,6 +39,7 @@ namespace TestConsoleApp
         DateTime startTime = DateTime.Now;
         EvGenerator.MaxEventCount = 10;
         EvGenerator.StartGeneration();
+        Console.WriteLine("Please wait ...");
         System.Threading.Thread.Sleep(11000);
         EvGenerator.StopGeneration();
         DateTime endTime = DateTime.Now;
@@ -55,9 +56,11 @@ namespace TestConsoleApp
 
     private static void PrintEvents(TEvent[] events)
     {
+      int n = 0;
       foreach (TEvent ev in events)
       {
-        Console.WriteLine($"desc:{ev.Description}, date:{ev.EventDate}, id:{ev.EventId}");
+        n++;
+        Console.WriteLine($"№:{n}, date:{ev.EventDate}, id:{ev.EventId}");
       }
     }
 
@@ -69,8 +72,10 @@ namespace TestConsoleApp
       using (TEventService EvService = new TEventService())
       {
         EvService.ProcessedEventTypes = new TEventType[] { TEventAutoGenerator.DefaultEventType };
-        EvService.Events.CollectionChanged += EventsChanged;
-        Console.ReadKey();
+        //EvService.Events.CollectionChanged += EventsChanged;
+        Console.WriteLine("Please wait ...");
+        System.Threading.Thread.Sleep(12000);
+        PrintEvents(EvService.Events.ToArray());
       }
     }
 
