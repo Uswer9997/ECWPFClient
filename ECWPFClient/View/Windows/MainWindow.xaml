@@ -31,7 +31,7 @@
                           Height="4" 
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Center"/>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding Events}">
+            <DataGrid Grid.Row="2" ItemsSource="{Binding Events}" IsReadOnly="True">
 
             </DataGrid>
         </Grid>
