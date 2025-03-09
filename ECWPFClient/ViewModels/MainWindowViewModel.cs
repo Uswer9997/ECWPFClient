@@ -33,7 +33,10 @@ namespace ECWPFClient.ViewModels
     /// </summary>
     public TEvent SelectedEvent { get; set; }
 
-  private TEventService eventService { get; }
+    /// <summary>
+    /// Сервис предоставляющий события Ориона
+    /// </summary>
+    private TEventService eventService { get; }
 
     #region Constructor
 
@@ -47,7 +50,7 @@ namespace ECWPFClient.ViewModels
     }
     #endregion
 
-  #region Commands
+    #region Commands
 
     public ICommand CloseApplicationCommand { get; }
 
