@@ -56,10 +56,15 @@ namespace ECWPFClient.Services
     /// </summary>
     private DateTime previousTime;
 
+    /// <summary>
+    /// Контекст синхронизации потока.
+    /// </summary>
+    private System.Threading.SynchronizationContext _synchronizationContext;
+
 
     #region Constructor
 
-    public TEventService()
+    public TEventService(System.Threading.SynchronizationContext synchronizationContext)
     {
       #region временное решение
       eventGenerator = new Infrastructure.TEventAutoGenerator();
@@ -67,6 +72,7 @@ namespace ECWPFClient.Services
       eventGenerator.StartGeneration();
       #endregion
 
+      _synchronizationContext = synchronizationContext;
       Events = new ObservableCollection<TEvent>();
       previousTime = DateTime.Now;
       checkTimer = new System.Timers.Timer();
@@ -95,13 +101,27 @@ namespace ECWPFClient.Services
 
       if (requestEvents.Success)
       {
-        Events.AddRange(requestEvents.Result);
+        // Выполним метод в потоке синхронизации
+        _synchronizationContext.Post(AddEvents, requestEvents.Result);
       }
 
       previousTime = currectTime;
       // Вновь запускаем таймер
       checkTimer.Start();
     }
+
+    /// <summary>
+    /// Этот метод выполнится в потоке синхронизации, т.е. там, 
+    /// где был создан экземпляр данного сервиса
+    /// </summary>
+    /// <param name="events"></param>
+    private void AddEvents(object events)
+    {
+      TEvent[] addedEvents = events as TEvent[];
+      Events.AddRange(addedEvents);
+    }
+
+
 
     /// <summary>
     /// Возвращает события согласно переданному фильтру

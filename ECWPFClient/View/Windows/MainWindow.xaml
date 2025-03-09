@@ -17,12 +17,20 @@
             <MenuItem Header="Данные"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Bottom"/>
-        <Grid>
-            <DataGrid>
-                
+        <Grid Width="Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Events}">
+
             </DataGrid>
         </Grid>
     </DockPanel>
+    
     <!--<Grid>
         <TextBox HorizontalAlignment="Left"
                  Height="23" 

@@ -47,6 +47,10 @@ namespace ECWPFClient.Infrastructure
     /// </summary>
     private System.Timers.Timer generateTimer;
 
+    /// <summary>
+    /// Индекс события
+    /// </summary>
+    private int eventIndex;
 
     #region Constructor
 
@@ -72,13 +76,18 @@ namespace ECWPFClient.Infrastructure
 
       Guid guid = Guid.NewGuid();
 
+      if (eventIndex < int.MaxValue)
+        eventIndex++;
+      else
+        eventIndex = 0;
+
       TEvent newTEvent = new TEvent()
       {
         EventId = guid.ToString(),
         Description = "TestEvent",
         EventDate = DateTime.Now,
         EventTypeId = GenerateEventType.Id,
-        ItemId = events.Count + 1,
+        ItemId = eventIndex,
         ItemType = "LOOP",
         SectionId = 1
       };

@@ -1,5 +1,6 @@
 ﻿using ECWPFClient.Data.Orion_SOAP;
 using ECWPFClient.Infrastructure.Commands;
+using ECWPFClient.Services;
 using ECWPFClient.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,30 @@ namespace ECWPFClient.ViewModels
     }
 
     /// <summary>
-    /// 
+    /// События Орион
     /// </summary>
     public ObservableCollection<TEvent> Events { get; }
 
-    #region Commands
+    /// <summary>
+    /// Выбранное событие
+    /// </summary>
+    public TEvent SelectedEvent { get; set; }
+
+  private TEventService eventService { get; }
+
+    #region Constructor
+
+    public MainWindowViewModel()
+    {
+      eventService = new TEventService(System.Threading.SynchronizationContext.Current);
+      eventService.ProcessedEventTypes = new TEventType[] { Infrastructure.TEventAutoGenerator.DefaultEventType };
+      Events = eventService.Events;
+
+      CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
+    }
+    #endregion
+
+  #region Commands
 
     public ICommand CloseApplicationCommand { get; }
 
@@ -38,14 +58,6 @@ namespace ECWPFClient.ViewModels
 
     private bool CanCloseApplicationCommandExecute(object p) => true;
 
-    #endregion
-
-    #region Constructor
-
-    public MainWindowViewModel()
-    {
-      CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
-    }
     #endregion
   }
 }
