@@ -69,7 +69,7 @@ namespace TestConsoleApp
 
     private static void TestTEventService()
     {
-      using (TEventService EvService = new TEventService())
+      using (TEventService EvService = new TEventService(System.Threading.SynchronizationContext.Current))
       {
         EvService.ProcessedEventTypes = new TEventType[] { TEventAutoGenerator.DefaultEventType };
         //EvService.Events.CollectionChanged += EventsChanged;
