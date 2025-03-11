@@ -161,7 +161,7 @@ namespace ECWPFClient.Infrastructure
         {
           generateTimer.Stop();
           generateTimer.Elapsed -= OnTimedEvent;
-          
+          generateTimer.Dispose();
         }
       }
 

@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace ECWPFClient.ViewModels
 {
-  internal class MainWindowViewModel : BaseViewModel
+  internal class MainWindowViewModel : BaseViewModel, IDisposable
   {
     private string _Title = "EC Client";
 
@@ -61,6 +61,29 @@ namespace ECWPFClient.ViewModels
 
     private bool CanCloseApplicationCommandExecute(object p) => true;
 
+    #endregion
+
+    #region Disposing
+    // Flag: Has Dispose already been called?
+    bool disposed = false;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+      Dispose(disposing: true);
+    }
+
+    // Protected implementation of Dispose pattern.
+    protected virtual void Dispose(bool disposing)
+    {
+      if (disposed)
+        return;
+
+      if (disposing)
+        eventService?.Dispose();
+
+      disposed = true;
+    }
     #endregion
   }
 }
