@@ -4,9 +4,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECWPFClient.Data.Orion_SOAP;
+using ECWPFClient.Models.Data.Orion_SOAP;
 using ECWPFClient.Infrastructure;
-using ECWPFClient.Services;
+using ECWPFClient.Models.Services;
 
 namespace TestConsoleApp
 {

@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Activities.Presentation.View.OutlineView;
 
-namespace ECWPFClient.Models.Data.ECEvents
+namespace ECWPFClient.Models.Data.EC
 {
   /// <summary>
-  /// Преобразованное событие Ориона
+  /// Преобразованное событие Ориона для отображения
   /// </summary>
   public  class ECEvent
     {
-    public string EventId { get; set; }
+    [HidePropertyInOutlineViewAttribute]
+    public string AssociatedEventId { get; set; }
     public int EventTypeId { get; set; }
     public DateTime EventDate { get; set; }
     public string Description { get; set; }

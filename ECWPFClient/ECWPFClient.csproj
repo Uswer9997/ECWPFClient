@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Activities.Presentation" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -64,12 +65,14 @@
     <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
     <Compile Include="Infrastructure\ObservableCollectionExtensions.cs" />
     <Compile Include="Infrastructure\TEventAutoGenerator.cs" />
+    <Compile Include="Models\Data\EC\EventMapper.cs" />
     <Compile Include="Models\Data\Orion SOAP\TEvent.cs" />
     <Compile Include="Models\Data\Orion SOAP\TEventType.cs" />
     <Compile Include="Models\Data\Orion SOAP\TOperationResult.cs" />
     <Compile Include="Models\Data\Orion SOAP\TServiceError.cs" />
-    <Compile Include="Models\Data\ECEvents\ECEvent.cs" />
-    <Compile Include="Models\Data\ECEvents\ECEventType.cs" />
+    <Compile Include="Models\Data\EC\ECEvent.cs" />
+    <Compile Include="Models\Data\EC\ECEventType.cs" />
+    <Compile Include="Models\ECDataProvider.cs" />
     <Compile Include="Models\Services\TEventService.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Page Include="Views\Windows\MainWindow.xaml">
