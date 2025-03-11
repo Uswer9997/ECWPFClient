@@ -1,4 +1,4 @@
-﻿using ECWPFClient.Data.Orion_SOAP;
+﻿using ECWPFClient.Models.Data.Orion_SOAP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,6 +161,7 @@ namespace ECWPFClient.Infrastructure
         {
           generateTimer.Stop();
           generateTimer.Elapsed -= OnTimedEvent;
+          
         }
       }
 

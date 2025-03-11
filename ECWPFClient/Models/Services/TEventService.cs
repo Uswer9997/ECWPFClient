@@ -1,4 +1,4 @@
-﻿using ECWPFClient.Data.Orion_SOAP;
+﻿using ECWPFClient.Models.Data.Orion_SOAP;
 using ECWPFClient.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECWPFClient.Services
+namespace ECWPFClient.Models.Services
 {
   /// <summary>
   /// Сервис проверяющий с определённой периодичностью появление событий Ориона (TEvent).

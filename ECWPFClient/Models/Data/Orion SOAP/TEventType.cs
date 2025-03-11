@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECWPFClient.Data.Orion_SOAP
+namespace ECWPFClient.Models.Data.Orion_SOAP
 {
   public class TEventType
   {

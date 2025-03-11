@@ -1,9 +1,12 @@
 ﻿using System;
 
-namespace ECWPFClient.Data.Orion_SOAP
+namespace ECWPFClient.Models.Data.ECEvents
 {
-  public class TEvent
-  {
+  /// <summary>
+  /// Преобразованное событие Ориона
+  /// </summary>
+  public  class ECEvent
+    {
     public string EventId { get; set; }
     public int EventTypeId { get; set; }
     public DateTime EventDate { get; set; }
@@ -12,6 +15,6 @@ namespace ECWPFClient.Data.Orion_SOAP
     public string ItemType { get; set; }
     public int SectionId { get; set; }
 
-    public TEvent() { }
+    public ECEvent() { }
   }
 }

@@ -1,6 +1,6 @@
-﻿using ECWPFClient.Data.Orion_SOAP;
+﻿using ECWPFClient.Models.Data.Orion_SOAP;
 using ECWPFClient.Infrastructure.Commands;
-using ECWPFClient.Services;
+using ECWPFClient.Models.Services;
 using ECWPFClient.ViewModels.Base;
 using System;
 using System.Collections.Generic;

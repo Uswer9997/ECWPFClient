@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECWPFClient.Models.ECEvents
+namespace ECWPFClient.Models.Data.ECEvents
 {
   public  class ECEventType
     {
