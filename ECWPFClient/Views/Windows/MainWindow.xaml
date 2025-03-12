@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ECWPFClient"
         xmlns:vm="clr-namespace:ECWPFClient.ViewModels"
+        xmlns:soap="clr-namespace:ECWPFClient.Models.Data.Orion_SOAP"
+        xmlns:ec="clr-namespace:ECWPFClient.Models.Data.EC"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         Height="427" Width="800">
@@ -31,8 +33,18 @@
                           Height="4" 
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Center"/>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding Events}" IsReadOnly="True">
-
+            <DataGrid 
+                Grid.Row="2" 
+                ItemsSource="{Binding Events}" 
+                IsReadOnly="True"
+                AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="РМ" Binding="{Binding Computer.Name}"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding EventDate}"/>
+                    <DataGridTextColumn Header="Событие" Binding="{Binding ECEventType.Description}"/>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Раздел" Binding="{Binding Section}"/>
+                </DataGrid.Columns>
             </DataGrid>
         </Grid>
     </DockPanel>

@@ -53,16 +53,20 @@ namespace ECWPFClient.Models
       {
         case NotifyCollectionChangedAction.Add:
           foreach (TEvent elTEvent in e.NewItems)
-            ECEvents.Add(EventMapper.Map(elTEvent));
+          {
+            // маппим типы, но заданы будут только совпадающие поля
+            ECEvent _ECEvent = EventMapper.Map(elTEvent);
+            /************************************** ВРЕМЕННО *************************************/
+            _ECEvent.ECEventType = ECWPFClient.Infrastructure.TEventAutoGenerator.DefaultEventType;
+            _ECEvent.Computer = new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" };
+            _ECEvent.Section = "TestSection";
+            /************************************** ВРЕМЕННО *************************************/
+            ECEvents.Add(_ECEvent);
+          }
           break;
         case NotifyCollectionChangedAction.Remove:
           ECEvents.RemoveAt(e.OldStartingIndex);
           break;
-        //case NotifyCollectionChangedAction.Move:
-        //  foreach (TEvent elTevent in e.OldItems)
-        //  {
-
-        //  }
       }
 
     }

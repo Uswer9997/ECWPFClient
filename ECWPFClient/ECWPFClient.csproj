@@ -66,6 +66,7 @@
     <Compile Include="Infrastructure\ObservableCollectionExtensions.cs" />
     <Compile Include="Infrastructure\TEventAutoGenerator.cs" />
     <Compile Include="Models\Data\EC\EventMapper.cs" />
+    <Compile Include="Models\Data\Orion SOAP\TComputer.cs" />
     <Compile Include="Models\Data\Orion SOAP\TEvent.cs" />
     <Compile Include="Models\Data\Orion SOAP\TEventType.cs" />
     <Compile Include="Models\Data\Orion SOAP\TOperationResult.cs" />

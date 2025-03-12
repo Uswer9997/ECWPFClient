@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ECWPFClient.Models.Data.EC;
+using ECWPFClient.Models;
 
 namespace ECWPFClient.ViewModels
 {
@@ -26,25 +28,25 @@ namespace ECWPFClient.ViewModels
     /// <summary>
     /// События Орион
     /// </summary>
-    public ObservableCollection<TEvent> Events { get; }
+    public ObservableCollection<ECEvent> Events { get; }
 
     /// <summary>
     /// Выбранное событие
     /// </summary>
-    public TEvent SelectedEvent { get; set; }
+    public ECEvent SelectedEvent { get; set; }
 
     /// <summary>
-    /// Сервис предоставляющий события Ориона
+    /// Сервис предоставляющий данные Ориона
     /// </summary>
-    private TEventService eventService { get; }
+    private ECDataProvider dataProvider { get; }
 
     #region Constructor
 
     public MainWindowViewModel()
     {
-      eventService = new TEventService(System.Threading.SynchronizationContext.Current);
-      eventService.ProcessedEventTypes = new TEventType[] { Infrastructure.TEventAutoGenerator.DefaultEventType };
-      Events = eventService.Events;
+      dataProvider = new ECDataProvider();
+      
+      Events = dataProvider.ECEvents;
 
       CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
     }
@@ -80,7 +82,7 @@ namespace ECWPFClient.ViewModels
         return;
 
       if (disposing)
-        eventService?.Dispose();
+        dataProvider?.Dispose();
 
       disposed = true;
     }
