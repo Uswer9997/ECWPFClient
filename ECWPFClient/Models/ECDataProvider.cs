@@ -25,6 +25,13 @@ namespace ECWPFClient.Models
     /// </summary>
     private TEventService eventService { get; }
 
+
+    /// <summary>
+    /// Сервис доступа к данным Ориона.
+    /// </summary>
+    /// <remarks>Инкапсулирует все запросы к Ориону кроме запросов событий</remarks> 
+    private OrionService orionService { get; }
+
     #endregion
 
     #region Properties
@@ -41,12 +48,20 @@ namespace ECWPFClient.Models
     public ECDataProvider()
     {
       eventService = new TEventService(System.Threading.SynchronizationContext.Current);
-      eventService.ProcessedEventTypes = new TEventType[] { Infrastructure.TEventAutoGenerator.DefaultEventType };
+      eventService.ProcessedEventTypes = Infrastructure.TEventAutoGenerator.GenerateEventTypes;
       eventService.Events.CollectionChanged += TEventsChangedHandler;
+
+      orionService = new OrionService();
 
       ECEvents = new ObservableCollection<ECEvent>();
     }
+    #endregion
 
+    /// <summary>
+    /// Обработчик собитий изменения коллекции событий TEvent в сервисе
+    /// </summary>
+    /// <param name="sender">Коллекция событий</param>
+    /// <param name="e">Аргумент события</param>
     private void TEventsChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
       switch (e.Action)
@@ -54,10 +69,13 @@ namespace ECWPFClient.Models
         case NotifyCollectionChangedAction.Add:
           foreach (TEvent elTEvent in e.NewItems)
           {
-            // маппим типы, но заданы будут только совпадающие поля
-            ECEvent _ECEvent = EventMapper.Map(elTEvent);
+            ECWPFClient.Models.Data.EC.ECEvent _ECEvent = new ECEvent(elTEvent.EventId)
+            {
+              EventDate = elTEvent.EventDate,
+              Description = elTEvent.Description,
+            };
             /************************************** ВРЕМЕННО *************************************/
-            _ECEvent.EventType = ECWPFClient.Infrastructure.TEventAutoGenerator.DefaultEventType;
+            _ECEvent.EventType = orionService.GetEventTypeById(elTEvent.EventTypeId);
             _ECEvent.Computer = new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" };
             _ECEvent.Section = "TestSection";
             /************************************** ВРЕМЕННО *************************************/
@@ -70,7 +88,7 @@ namespace ECWPFClient.Models
       }
 
     }
-    #endregion
+
 
     #region Disposing
     // Flag: Has Dispose already been called?

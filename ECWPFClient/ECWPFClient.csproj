@@ -74,6 +74,7 @@
     <Compile Include="Models\Data\EC\ECEvent.cs" />
     <Compile Include="Models\Data\EC\ECEventType.cs" />
     <Compile Include="Models\ECDataProvider.cs" />
+    <Compile Include="Models\Services\OrionService.cs" />
     <Compile Include="Models\Services\TEventService.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Page Include="Views\Windows\MainWindow.xaml">

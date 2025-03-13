@@ -45,8 +45,11 @@
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
+                        <Style.Setters>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Style.Setters>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding EventType.IsAlarm}" Value="true">
+                            <DataTrigger Binding="{Binding EventType.IsAlarm}" Value="True">
                                 <Setter Property="Foreground" Value="Red"/>
                             </DataTrigger>
                         </Style.Triggers>

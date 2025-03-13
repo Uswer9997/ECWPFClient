@@ -29,7 +29,7 @@ namespace ECWPFClient.Infrastructure
     /// </summary>
     public int MaxEventCount { get; set; }
 
-    public TEventType GenerateEventType { get; set; }
+    public static TEventType[] GenerateEventTypes { get; set; }
 
     public static TEventType DefaultEventType = new TEventType()
     {
@@ -59,14 +59,27 @@ namespace ECWPFClient.Infrastructure
       GenerateInterval = 1000;
       MaxEventCount = 10;
       events = new List<TEvent>();
-      GenerateEventType = TEventAutoGenerator.DefaultEventType;
+      GenerateEventTypes = new TEventType[]
+      {
+        TEventAutoGenerator.DefaultEventType,
+        new TEventType()
+        {
+          Id = 2,
+          Category = "TestTypeCategory2",
+          CharId = "",
+          Comments = "TestTypeComments2",
+          Description = "TestTypeDescription2",
+          HexCode = "",
+          IsAlarm = false
+        }
+      };
       generateTimer = new System.Timers.Timer();
       generateTimer.Interval = GenerateInterval;
       generateTimer.Elapsed += OnTimedEvent;
     }
     #endregion
 
-    
+
     private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
     {
       if (events.Count >= MaxEventCount)
@@ -86,11 +99,19 @@ namespace ECWPFClient.Infrastructure
         EventId = guid.ToString(),
         Description = "TestEvent",
         EventDate = DateTime.Now,
-        EventTypeId = GenerateEventType.Id,
+        EventTypeId = GenerateEventTypes[0].Id,
         ItemId = eventIndex,
         ItemType = "LOOP",
         SectionId = 1
       };
+
+      // перемежаем типы событий для четных и нечётных событий
+      if (((eventIndex % 2) == 0) & GenerateEventTypes.Length >= 1)
+      {
+        newTEvent.Description = "TestEvent 2";
+        newTEvent.SectionId = 2;
+        newTEvent.EventTypeId = GenerateEventTypes[1].Id;
+      }
 
       events.Add(newTEvent);
     }
