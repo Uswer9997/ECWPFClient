@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Activities.Presentation.View.OutlineView;
 
 namespace ECWPFClient.Models.Data.EC
 {
@@ -8,7 +7,6 @@ namespace ECWPFClient.Models.Data.EC
   /// </summary>
   public class ECEvent
   {
-    [HidePropertyInOutlineView]
     public string AssociatedEventId { get; private set; }
     public DateTime EventDate { get; set; }
     public Orion_SOAP.TEventType EventType { get; set; } //Тип события

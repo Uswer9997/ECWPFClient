@@ -28,7 +28,7 @@ namespace ECWPFClient.ViewModels
     /// <summary>
     /// События Орион
     /// </summary>
-    public ObservableCollection<ECEvent> Events { get; }
+    public ObservableCollection<ECEvent> Events { get { return _orionDataProvider.ECEvents; } }
 
     /// <summary>
     /// Выбранное событие
@@ -38,15 +38,13 @@ namespace ECWPFClient.ViewModels
     /// <summary>
     /// Сервис предоставляющий данные Ориона
     /// </summary>
-    private OrionDataProvider OrionDataProvider { get; }
+    private OrionDataProvider _orionDataProvider { get; }
 
     #region Constructor
 
     public MainWindowViewModel()
     {
-      OrionDataProvider = new OrionDataProvider();
-      
-      Events = OrionDataProvider.ECEvents;
+      _orionDataProvider = new OrionDataProvider();
 
       CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
     }
@@ -82,7 +80,7 @@ namespace ECWPFClient.ViewModels
         return;
 
       if (disposing)
-        OrionDataProvider?.Dispose();
+        _orionDataProvider?.Dispose();
 
       disposed = true;
     }

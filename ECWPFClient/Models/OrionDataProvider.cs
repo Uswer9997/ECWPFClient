@@ -28,7 +28,9 @@ namespace ECWPFClient.Models
     /// </summary>
     private TEventService eventService { get; }
 
-
+    /// <summary>
+    /// ВРЕМЕННЫЙ список компьютеров
+    /// </summary>
     private TComputer[] computers;
 
     #endregion
@@ -46,18 +48,17 @@ namespace ECWPFClient.Models
 
     public OrionDataProvider()
     {
+      ECEvents = new ObservableCollection<ECEvent>();
+
       eventService = new TEventService(System.Threading.SynchronizationContext.Current);
       eventService.ProcessedEventTypes = Infrastructure.TEventAutoGenerator.GenerateEventTypes;
       eventService.Events.CollectionChanged += TEventsChangedHandler;
 
-      computers = new TComputer[] { new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" } };
-
-      ECEvents = new ObservableCollection<ECEvent>();
     }
     #endregion
 
     /// <summary>
-    /// Обработчик собитий изменения коллекции событий TEvent в сервисе
+    /// Обработчик событий изменения коллекции (событий TEvent) в сервисе
     /// </summary>
     /// <param name="sender">Коллекция событий</param>
     /// <param name="e">Аргумент события</param>
@@ -68,6 +69,7 @@ namespace ECWPFClient.Models
         case NotifyCollectionChangedAction.Add:
           foreach (TEvent elTEvent in e.NewItems)
           {
+            // создадим объект события на основе полученных данных
             ECWPFClient.Models.Data.EC.ECEvent _ECEvent = new ECEvent(elTEvent.EventId)
             {
               EventDate = elTEvent.EventDate,
@@ -75,9 +77,24 @@ namespace ECWPFClient.Models
             };
             _ECEvent.EventType = GetEventTypeById(elTEvent.EventTypeId);
             _ECEvent.Computer = GetComputerById(elTEvent.ComputerId);
-            /************************************** ВРЕМЕННО *************************************/
-            _ECEvent.Section = "TestSection";
-            /************************************** ВРЕМЕННО *************************************/
+            switch (elTEvent.ItemType.ToUpper())
+            {
+              case "SECTION": // раздел
+                _ECEvent.Section = GetSectionsById(elTEvent.ItemId);
+                break;
+              case "LOOP": // вход (шлейф)
+                break;
+              case "DEVICE": // устройство
+                break;
+              case "READER": // считыватель
+                break;
+              case "RELAY": // выход (реле)
+                break;
+              case "ACCESSZONE": // зона доступа
+              case "ACCESSPOINT": // точка доступа (дверь)
+              case "SECTIONGROUP": // группа разделов
+                break;
+            }
             ECEvents.Add(_ECEvent);
           }
           break;
@@ -87,9 +104,9 @@ namespace ECWPFClient.Models
       }
 
     }
+
+
     #region Metods
-
-
     public TEventType GetEventTypeById(int id)
     {
       return Infrastructure.TEventAutoGenerator.GenerateEventTypes.FirstOrDefault(t => t.Id == id);
@@ -97,7 +114,16 @@ namespace ECWPFClient.Models
 
     public TComputer GetComputerById(int id)
     {
+      if (computers == null) 
+        // тут должен быть запрос компьютеров у SOAP сервиса
+        computers = new TComputer[] { new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" } };
+
       return computers.FirstOrDefault(c => c.Id == id);
+    }
+
+    private string GetSectionsById(int itemId)
+    {
+      return "Test Section";
     }
     #endregion
 
