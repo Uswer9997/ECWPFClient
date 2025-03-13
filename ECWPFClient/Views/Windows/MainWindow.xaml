@@ -5,8 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ECWPFClient"
         xmlns:vm="clr-namespace:ECWPFClient.ViewModels"
-        xmlns:soap="clr-namespace:ECWPFClient.Models.Data.Orion_SOAP"
-        xmlns:ec="clr-namespace:ECWPFClient.Models.Data.EC"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" 
         Height="427" Width="800">
@@ -40,11 +38,20 @@
                 AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="РМ" Binding="{Binding Computer.Name}"/>
-                    <DataGridTextColumn Header="Дата" Binding="{Binding EventDate}"/>
-                    <DataGridTextColumn Header="Событие" Binding="{Binding ECEventType.Description}"/>
-                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
-                    <DataGridTextColumn Header="Раздел" Binding="{Binding Section}"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding EventDate}" Width="*"/>
+                    <DataGridTextColumn Header="Событие" Binding="{Binding EventType.Description}" Width="*"/>
+                    <DataGridTextColumn Header="Раздел" Binding="{Binding Section}" Width="*"/>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
                 </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EventType.IsAlarm}" Value="true">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
             </DataGrid>
         </Grid>
     </DockPanel>

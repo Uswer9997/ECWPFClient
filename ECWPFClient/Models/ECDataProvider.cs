@@ -57,7 +57,7 @@ namespace ECWPFClient.Models
             // маппим типы, но заданы будут только совпадающие поля
             ECEvent _ECEvent = EventMapper.Map(elTEvent);
             /************************************** ВРЕМЕННО *************************************/
-            _ECEvent.ECEventType = ECWPFClient.Infrastructure.TEventAutoGenerator.DefaultEventType;
+            _ECEvent.EventType = ECWPFClient.Infrastructure.TEventAutoGenerator.DefaultEventType;
             _ECEvent.Computer = new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" };
             _ECEvent.Section = "TestSection";
             /************************************** ВРЕМЕННО *************************************/
