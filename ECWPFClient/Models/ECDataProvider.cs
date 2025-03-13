@@ -74,9 +74,9 @@ namespace ECWPFClient.Models
               EventDate = elTEvent.EventDate,
               Description = elTEvent.Description,
             };
-            /************************************** ВРЕМЕННО *************************************/
             _ECEvent.EventType = orionService.GetEventTypeById(elTEvent.EventTypeId);
-            _ECEvent.Computer = new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" };
+            _ECEvent.Computer = orionService.GetComputerById(elTEvent.ComputerId);
+            /************************************** ВРЕМЕННО *************************************/
             _ECEvent.Section = "TestSection";
             /************************************** ВРЕМЕННО *************************************/
             ECEvents.Add(_ECEvent);

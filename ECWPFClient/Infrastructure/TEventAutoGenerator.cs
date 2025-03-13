@@ -100,6 +100,7 @@ namespace ECWPFClient.Infrastructure
         Description = "TestEvent",
         EventDate = DateTime.Now,
         EventTypeId = GenerateEventTypes[0].Id,
+        ComputerId = 1,
         ItemId = eventIndex,
         ItemType = "LOOP",
         SectionId = 1
