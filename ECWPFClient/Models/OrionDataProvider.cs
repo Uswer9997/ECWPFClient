@@ -12,14 +12,13 @@ using System.Threading.Tasks;
 namespace ECWPFClient.Models
 {
   /// <summary>
-  /// Является центральным звеном, связывающим сервисы 
-  /// и предоставляющий централизованный доступ к данным Ориона.
-  /// Является связующим звеном между SOAP сервисом Ориона и ViewModel главного окна.
+  /// Является связующим звеном между SOAP сервисом Ориона и ViewModel главного окна
+  /// предоставляющим централизованный доступ к данным Ориона.
   /// </summary>
   /// <remarks>
   /// Помимо централизованного доступа внутри класса производится преобразование типов. 
   /// </remarks>
-  internal class OrionDataProvider 
+  internal class OrionDataProvider
   {
     #region Fields
 
@@ -29,7 +28,7 @@ namespace ECWPFClient.Models
     private TEventService eventService { get; }
 
     /// <summary>
-    /// ВРЕМЕННЫЙ список компьютеров
+    /// Список компьютеров
     /// </summary>
     private TComputer[] computers;
 
@@ -42,6 +41,14 @@ namespace ECWPFClient.Models
     public ObservableCollection<ECEvent> ECEvents { get; }
 
 
+    /// <summary>
+    /// Список типов отслеживаемых событий
+    /// </summary>
+    public TEventType[] ProcessedEventTypes
+    {
+      get { return eventService.ProcessedEventTypes; }
+      set { eventService.ProcessedEventTypes = value; }
+    }
     #endregion
 
     #region Constructor
@@ -114,7 +121,7 @@ namespace ECWPFClient.Models
 
     public TComputer GetComputerById(int id)
     {
-      if (computers == null) 
+      if (computers == null)
         // тут должен быть запрос компьютеров у SOAP сервиса
         computers = new TComputer[] { new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" } };
 

@@ -40,11 +40,21 @@ namespace ECWPFClient.ViewModels
     /// </summary>
     private OrionDataProvider _orionDataProvider { get; }
 
+    /// <summary>
+    /// Типы событий, которые будут обрабатываться
+    /// </summary>
+    public TEventType[] ProcessedEventTypes
+    {
+      get { return _orionDataProvider.ProcessedEventTypes; }
+      set { _orionDataProvider.ProcessedEventTypes = value; }
+    }
+
     #region Constructor
 
     public MainWindowViewModel()
     {
       _orionDataProvider = new OrionDataProvider();
+      ProcessedEventTypes = Infrastructure.TEventAutoGenerator.GenerateEventTypes;
 
       CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
     }

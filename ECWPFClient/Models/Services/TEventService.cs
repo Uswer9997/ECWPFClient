@@ -102,7 +102,7 @@ namespace ECWPFClient.Models.Services
       if (requestEvents.Success)
       {
         // Выполним метод в потоке синхронизации
-        _synchronizationContext.Post(AddEvents, requestEvents.Result);
+        _synchronizationContext?.Post(AddEvents, requestEvents.Result);
       }
 
       previousTime = currectTime;
