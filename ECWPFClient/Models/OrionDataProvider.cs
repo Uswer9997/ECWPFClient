@@ -12,11 +12,14 @@ using System.Threading.Tasks;
 namespace ECWPFClient.Models
 {
   /// <summary>
-  /// Класс являющийся центральным звеном, связывающим сервисы 
+  /// Является центральным звеном, связывающим сервисы 
   /// и предоставляющий централизованный доступ к данным Ориона.
+  /// Является связующим звеном между SOAP сервисом Ориона и ViewModel главного окна.
   /// </summary>
-  /// <remarks>Помимо централизованного доступа внутри класса производится преобразование типов.</remarks>
- internal class ECDataProvider 
+  /// <remarks>
+  /// Помимо централизованного доступа внутри класса производится преобразование типов. 
+  /// </remarks>
+  internal class OrionDataProvider 
   {
     #region Fields
 
@@ -26,11 +29,7 @@ namespace ECWPFClient.Models
     private TEventService eventService { get; }
 
 
-    /// <summary>
-    /// Сервис доступа к данным Ориона.
-    /// </summary>
-    /// <remarks>Инкапсулирует все запросы к Ориону кроме запросов событий</remarks> 
-    private OrionService orionService { get; }
+    private TComputer[] computers;
 
     #endregion
 
@@ -45,13 +44,13 @@ namespace ECWPFClient.Models
 
     #region Constructor
 
-    public ECDataProvider()
+    public OrionDataProvider()
     {
       eventService = new TEventService(System.Threading.SynchronizationContext.Current);
       eventService.ProcessedEventTypes = Infrastructure.TEventAutoGenerator.GenerateEventTypes;
       eventService.Events.CollectionChanged += TEventsChangedHandler;
 
-      orionService = new OrionService();
+      computers = new TComputer[] { new TComputer() { Id = 1, Name = "This copm", Ip = "127.0.0.1" } };
 
       ECEvents = new ObservableCollection<ECEvent>();
     }
@@ -74,8 +73,8 @@ namespace ECWPFClient.Models
               EventDate = elTEvent.EventDate,
               Description = elTEvent.Description,
             };
-            _ECEvent.EventType = orionService.GetEventTypeById(elTEvent.EventTypeId);
-            _ECEvent.Computer = orionService.GetComputerById(elTEvent.ComputerId);
+            _ECEvent.EventType = GetEventTypeById(elTEvent.EventTypeId);
+            _ECEvent.Computer = GetComputerById(elTEvent.ComputerId);
             /************************************** ВРЕМЕННО *************************************/
             _ECEvent.Section = "TestSection";
             /************************************** ВРЕМЕННО *************************************/
@@ -88,7 +87,19 @@ namespace ECWPFClient.Models
       }
 
     }
+    #region Metods
 
+
+    public TEventType GetEventTypeById(int id)
+    {
+      return Infrastructure.TEventAutoGenerator.GenerateEventTypes.FirstOrDefault(t => t.Id == id);
+    }
+
+    public TComputer GetComputerById(int id)
+    {
+      return computers.FirstOrDefault(c => c.Id == id);
+    }
+    #endregion
 
     #region Disposing
     // Flag: Has Dispose already been called?

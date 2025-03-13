@@ -38,15 +38,15 @@ namespace ECWPFClient.ViewModels
     /// <summary>
     /// Сервис предоставляющий данные Ориона
     /// </summary>
-    private ECDataProvider dataProvider { get; }
+    private OrionDataProvider OrionDataProvider { get; }
 
     #region Constructor
 
     public MainWindowViewModel()
     {
-      dataProvider = new ECDataProvider();
+      OrionDataProvider = new OrionDataProvider();
       
-      Events = dataProvider.ECEvents;
+      Events = OrionDataProvider.ECEvents;
 
       CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
     }
@@ -82,7 +82,7 @@ namespace ECWPFClient.ViewModels
         return;
 
       if (disposing)
-        dataProvider?.Dispose();
+        OrionDataProvider?.Dispose();
 
       disposed = true;
     }
